@@ -61,9 +61,11 @@ describe Guard::Konacha::Runner do
     it 'should run each path with a valid extension' do
       File.should_receive(:exists?).with(Rails.root.join('spec/javascripts/1.js').to_s).and_return(true)
       File.should_receive(:exists?).with(Rails.root.join('spec/javascripts/foo/bar.js.coffee').to_s).and_return(true)
+      File.should_receive(:exists?).with(Rails.root.join('spec/javascripts/baz.coffee').to_s).and_return(true)
       konacha_runner.should_receive(:run).with('/1')
       konacha_runner.should_receive(:run).with('/foo/bar')
-      runner.run(['spec/javascripts/1.js', 'spec/javascripts/foo/bar.js.coffee'])
+      konacha_runner.should_receive(:run).with('/baz')
+      runner.run(['spec/javascripts/1.js', 'spec/javascripts/foo/bar.js.coffee', 'spec/javascripts/baz.coffee'])
     end
 
     it 'should run when called with no arguemnts' do
